@@ -4,10 +4,12 @@ Fix for the Patch for the `btusb` kernel module to restore support for fake CSR8
 
 ## Problem
 The script was broken with tab syntax.
+
 A kernel fix for fake CSR Bluetooth adapters hardcodes checks for `0a12:0001` in three places within `drivers/bluetooth/btusb.c`. Other fake CSR clones like `10d7:b012` are not handled, causing them to malfunction or stop working entirely after the update.
 
 ## What the patch does
 Fixes the tab syntax in the script.
+
 Adds device ID `10d7:b012` to the three relevant code paths in `btusb.c`:
 
 1. **`quirks_table`** — Registers the device with `BTUSB_CSR` driver info so it enters the CSR code path.
