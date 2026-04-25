@@ -55,15 +55,15 @@ sed -i "$((L+1))s/== 0x0001)/== 0x0001) ||/" btusb.c
 insert_after btusb.c "$((L+1))" "$(printf '\t\t    (le16_to_cpu(udev->descriptor.idVendor)  == %s &&\n\t\t     le16_to_cpu(udev->descriptor.idProduct) == %s))' "$VENDOR" "$PRODUCT")"
 
 echo "==> Compiling module..."
-cat > Makefile <<'EOF'
-KVER ?= $(shell uname -r)
-KDIR ?= /lib/modules/$(KVER)/build
+cat > Makefile <<EOF
+KVER ?= \$(shell uname -r)
+KDIR ?= /lib/modules/\$(KVER)/build
 obj-m += btusb.o
 ccflags-y += -DCONFIG_BT_HCIBTUSB_BCM=1 -DCONFIG_BT_HCIBTUSB_RTL=1
 ccflags-y += -DCONFIG_BT_HCIBTUSB_MTK=1 -DCONFIG_BT_HCIBTUSB_AUTOSUSPEND=1
 ccflags-y += -DCONFIG_BT_HCIBTUSB_POLL_SYNC=1
 all:
-        $(MAKE) -C $(KDIR) M=$(PWD) modules
+	\$(MAKE) -C \$(KDIR) M=\$(PWD) modules
 EOF
 
 make KVER="$KVER" 2>&1
