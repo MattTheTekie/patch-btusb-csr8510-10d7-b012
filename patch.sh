@@ -66,7 +66,7 @@ all:
 	\$(MAKE) -C \$(KDIR) M=\$(PWD) modules
 EOF
 
-make KVER="$KVER" 2>&1
+make KVER="$KVER" CC=clang LLVM=1
 test -f btusb.ko || { echo "Error: compilation failed"; exit 1; }
 
 echo "==> Installing module..."
